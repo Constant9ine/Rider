@@ -17,12 +17,12 @@ export default class SideMenu extends React.Component{
             sideMenuList: [
                 {key: 1, name: languageJSON.book_your_ride_menu, navigationName: 'Map', icon: 'home', type: 'font-awesome', child: 'firstChild'},
                 {key: 2, name: languageJSON.profile_setting_menu, navigationName: 'Profile', icon: 'ios-person-add', type: 'ionicon', child: 'secondChild'},
-              //  {key: 3, name: languageJSON.my_wallet_menu, icon: 'account-balance-wallet', navigationName: 'wallet', type:'MaterialIcons', child: 'thirdChild'},
+                {key: 3, name: languageJSON.my_wallet_menu, icon: 'account-balance-wallet', navigationName: 'wallet', type:'MaterialIcons', child: 'thirdChild'},
                 {key: 4, name: languageJSON.my_rides_menu, navigationName: 'RideList', icon: 'car-sports', type: 'material-community', child: 'fourthChild'},
                 {key: 5, name: languageJSON.about_us_menu,  navigationName: 'About', icon: 'info', type: 'entypo', child: 'fifthChild'},
                 {key: 6, name: languageJSON.logout, icon: 'sign-out', type: 'font-awesome', child: 'lastChild'}
                 ],
-           // profile_image:null,
+            profile_image:null,
            
         }
           
@@ -131,7 +131,12 @@ export default class SideMenu extends React.Component{
                             </TouchableOpacity>
                     } />
                 </View>
-               
+                <View style={{opacity: 0.6}}>
+                    <Image 
+                        source={require('../../assets/images/logo.png')} 
+                        style={{width: '100%'}}
+                    />
+                </View>
                
             </View>
         )

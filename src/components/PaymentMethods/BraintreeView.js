@@ -73,10 +73,7 @@ export default class BraintreeView extends Component {
 
     render() {
         if(this.state.token){
-            var checkout_url = this.CHECKOUT_URL + 'create_braintree_link?token=' + 
-			this.state.token + '&order_id=' + this.state.payData.order_id +
-			'&amount=' + this.state.payData.amount + 
-			'&currency=' + this.state.payData.currency;
+            var checkout_url = this.CHECKOUT_URL + 'create_braintree_link?token=' + this.state.token + '&order_id=' + this.state.payData.order_id + '&amount=' + this.state.payData.amount+ '&currency=' + this.state.payData.currency;
             return (
                 <WebView
                     ref={webView => (this.webView = webView)}

@@ -185,6 +185,11 @@ export default class CardDetailsScreen extends React.Component {
   }
 
   payWithCard() {
+	  
+	      this.setCardValueToDB('Card')
+
+	  
+	  /*
     let data = this.state.userData;
     // console.log(data)
     let payData = {
@@ -225,9 +230,73 @@ export default class CardDetailsScreen extends React.Component {
             allData:allData
         });
       })
-    }
+    }	*/
   }
 
+  setCardValueToDB(paymentMode) {
+    if (paymentMode) {
+      // console.log('actual amount - ',this.state.payDetails.amount);
+      // console.log('Discount amount - ',this.state.payDetails.discount);
+      // console.log('Conveniece Fees-',this.state.userData.convenience_fees);
+      // console.log('customer pay',(this.state.payDetails.amount - this.state.payDetails.discount))
+      // console.log('Used Wallet amount -',this.state.usedWalletAmmount?this.state.usedWalletAmmount:0);
+      // console.log('used cash-', this.state.payDetails.payableAmmount);
+
+      let paramData = this.state.userData;
+      firebase.database().ref('users/' + paramData.driver + '/my_bookings/' + paramData.bookingKey + '/').update({
+        payment_status: "PAID",
+        payment_mode: paymentMode,
+        customer_paid: this.state.payDetails.amount - this.state.payDetails.discount,
+        discount_amount: this.state.payDetails.discount,
+        usedWalletMoney: this.state.usedWalletAmmount ? this.state.usedWalletAmmount : 0,
+        cashPaymentAmount: paymentMode == 'Wallet' ? 0 : this.state.payDetails.payableAmmount
+      }).then(() => {
+        firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/my-booking/' + paramData.bookingKey + '/').update({
+          payment_status: "PAID",
+          payment_mode: paymentMode,
+          customer_paid: this.state.payDetails.amount - this.state.payDetails.discount,
+          discount_amount: this.state.payDetails.discount,
+          usedWalletMoney: this.state.usedWalletAmmount ? this.state.usedWalletAmmount : 0,
+          cashPaymentAmount: paymentMode == 'Wallet' ? 0 : this.state.payDetails.payableAmmount
+        }).then(() => {
+          firebase.database().ref('bookings/' + paramData.bookingKey + '/').update({
+            payment_status: "PAID",
+            payment_mode: paymentMode,
+            customer_paid: this.state.payDetails.amount - this.state.payDetails.discount,
+            discount_amount: this.state.payDetails.discount,
+            usedWalletMoney: this.state.usedWalletAmmount ? this.state.usedWalletAmmount : 0,
+            cashPaymentAmount: paymentMode == 'Wallet' ? 0 : this.state.payDetails.payableAmmount
+          }).then(() => {
+            this.setState({ loadingModal: false });
+            if (this.state.usedWalletAmmount) {
+              if (this.state.usedWalletAmmount > 0) {
+                let tDate = new Date();
+                firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/walletHistory').push({
+                  type: 'Debit',
+                  amount: this.state.usedWalletAmmount,
+                  date: tDate.toString(),
+                  txRef: this.state.payDetails.txRef,
+                }).then(() => {
+                  firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/').update({
+                    walletBalance: this.state.walletBalance - this.state.usedWalletAmmount
+                  })
+                })
+              }
+            }
+          })
+          setTimeout(() => {
+            alert(languageJSON.goto_payment);
+          }, 1000)
+          this.props.navigation.navigate('paymentMethod');
+        })
+
+      })
+    }
+
+  }
+  
+  
+  
   loading() {
     return (
       <Modal
@@ -481,12 +550,12 @@ export default class CardDetailsScreen extends React.Component {
             </CheckBox>
 
           </View>
-          {this.state.useWalletCash == true && this.state.walletBalance >= this.state.payDetails.amount ? //payment section view
+          {this.state.useWalletCash == true && this.state.walletBalance >= this.state.payDetails.amount ?
             <View style={styles.buttonContainer}>
               <TouchableOpacity
                 style={styles.buttonWrapper2}
                 onPress={() => {
-                  this.walletPayment()	//App Wallet to be removed
+                  this.walletPayment()
 
                 }}>
                 <Text style={styles.buttonTitle}>{languageJSON.paynow_button}</Text>
@@ -497,7 +566,7 @@ export default class CardDetailsScreen extends React.Component {
               <TouchableOpacity
                 style={styles.buttonWrapper}
                 onPress={() => {
-                  this.cashPayment() 	//Cash Payment
+                  this.cashPayment()
 
                 }}>
                 <Text style={styles.buttonTitle}>{languageJSON.pay_cash}</Text>
@@ -506,13 +575,13 @@ export default class CardDetailsScreen extends React.Component {
               <TouchableOpacity
                 style={styles.cardPayBtn}
                 onPress={() => {
-                  this.payWithCard()	//ATM Card payment
+                  this.payWithCard()
 
                 }}>
                 <Text style={styles.buttonTitle}>{languageJSON.payWithCard}</Text>
               </TouchableOpacity>
             </View>
-          }/////////////////payment selection view
+          }
           
         </ScrollView>
 

@@ -70,7 +70,7 @@ export default class LoginScreen extends Component {
       })
   }
 
-  /*async FbLogin() {
+  async FbLogin() {
 
     try {
       await Facebook.initializeAsync('XXXXXXXXXXXXXXXX');
@@ -83,7 +83,7 @@ export default class LoginScreen extends Component {
       if (type === 'success') {
 
         // Get the user's name using Facebook's Graph API
-       // const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
+        const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
         const credential = firebase.auth.FacebookAuthProvider.credential(token);
         firebase.auth().signInWithCredential(credential)
           .then((user) => {
@@ -109,10 +109,7 @@ export default class LoginScreen extends Component {
       alert(languageJSON.facebook_login_auth_error`${message}`);
     }
   }
-*/
-  
-  
-  
+
    appleSigin = async () => {
 
     const csrf = Math.random().toString(36).substring(2, 15);

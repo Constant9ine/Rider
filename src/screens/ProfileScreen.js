@@ -44,9 +44,9 @@ export default class ProfileScreen extends React.Component {
         const userData=firebase.database().ref('users/'+this.state.currentUser.uid);
         userData.on('value',userData=>{
             if(userData.val()){
-                //var str = userData.val().location.add
-                //var tempAdd = str.split(",")[3]+ ','+str.split(",")[4];
-               // this.setState({tempAddress:tempAdd});
+                var str = userData.val().location.add
+                var tempAdd = str.split(",")[3]+ ','+str.split(",")[4];
+                this.setState({tempAddress:tempAdd});
                 this.setState(userData.val(),(res)=>{
                 });         
             }
@@ -225,7 +225,18 @@ async uploadmultimedia(url){
                      onChangeTextInput={(value)=>{this.setState({emailerror:null,email:value})}}  
                      onPressChangePassword={(o,n)=>this.onPressChangePassword(o,n)} 
                 />
-             
+                <View style={styles.scrollViewStyle} >
+                    <Text style={styles.profStyle}> {languageJSON.my_wallet_title} ( {Currency} {this.state.walletBalance?parseFloat(this.state.walletBalance).toFixed(2):0.00})</Text>
+                    <Icon
+                    name='keyboard-arrow-right'
+                    type='MaterialIcons'
+                    color='#000'
+                    size={40}
+                    iconStyle={{ lineHeight: 48 }}
+                    onPress={() => this.goWallet()}
+                  /> 
+                    
+                </View>
                 <View style={styles.scrollViewStyle2} >
                     <Text style={styles.profStyle}>{languageJSON.profile_page_subtitle}</Text>
                     <Icon
@@ -265,7 +276,19 @@ async uploadmultimedia(url){
                             <Text style={styles.emailAdressStyle}>{this.state.email}</Text>
                         </View>
                     </View>
-                   
+                    <View style={styles.myViewStyle}>
+                        <View style={styles.iconViewStyle}>
+                            <Icon
+                                name='globe'
+                                type='simple-line-icon'
+                                color={colors.GREY.btnPrimary}
+                            />
+                            <Text style={styles.text1}>{languageJSON.location_lebel}</Text>
+                        </View>
+                        <View style={{flex:1}}>
+                            <Text style={styles.text2}>{this.state.tempAddress}</Text>
+                        </View>
+                    </View>
                     <View style={styles.myViewStyle}>
                         <View style={styles.iconViewStyle}>
                             <Icon
