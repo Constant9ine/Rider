@@ -287,7 +287,7 @@ export default class CardDetailsScreen extends React.Component {
           setTimeout(() => {
             alert(languageJSON.goto_payment);
           }, 1000)
-          this.props.navigation.navigate('paymentMethod');
+          this.props.navigation.navigate('ratingPageCard', { data: paramData } );
         })
 
       })
@@ -540,14 +540,7 @@ export default class CardDetailsScreen extends React.Component {
           </View>
 
           <View style={{ flex: 1 }}>
-            <CheckBox
-              center
-              disabled={this.state.walletBalance > 0 ? false : true}
-              title={languageJSON.use_wallet_balance + Currency + parseFloat(this.state.walletBalance).toFixed(2) + ')'}
-              checked={this.state.useWalletCash}
-              containerStyle={{ backgroundColor: colors.WHITE, borderWidth: 0, borderColor: colors.WHITE, alignSelf: 'flex-start' }}
-              onPress={() => { this.useWallet() }}>
-            </CheckBox>
+           
 
           </View>
           {this.state.useWalletCash == true && this.state.walletBalance >= this.state.payDetails.amount ?

@@ -582,7 +582,7 @@ export default class FareScreen extends React.Component {
                     backgroundColor={colors.GREY.default}
                     leftComponent={{ icon: 'md-menu', type: 'ionicon', color: colors.WHITE, size: 30, component: TouchableWithoutFeedback, onPress: () => { this.props.navigation.toggleDrawer(); } }}
                     centerComponent={<Text style={styles.headerTitleStyle}>{languageJSON.confrim_booking}</Text>}
-                    rightComponent={{ icon: 'ios-notifications', type: 'ionicon', color: colors.WHITE, size: 30, component: TouchableWithoutFeedback, onPress: () => { this.props.navigation.navigate('Notifications'); } }}
+                  /*  rightComponent={{ icon: 'ios-notifications', type: 'ionicon', color: colors.WHITE, size: 30, component: TouchableWithoutFeedback, onPress: () => { this.props.navigation.navigate('Notifications'); } }}*/
                     containerStyle={styles.headerStyle}
                     innerContainerStyles={styles.headerInnerStyle}
                 />

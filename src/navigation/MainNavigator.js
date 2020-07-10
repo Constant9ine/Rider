@@ -1,7 +1,8 @@
 import { createStackNavigator} from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import { 
-    DriverTripCompleteSreen, 
+    DriverTripCompleteSreen,
+	DriverTripCompleteSreenCard,
     ProfileScreen,
     CardDetailsScreen, 
     RideListPage, 
@@ -31,6 +32,12 @@ import SideMenu from '../components/SideMenu';
                 header: null
             }
         },
+		ratingPageCard: {
+			screen: DriverTripCompleteSreenCard,
+			navigationOptions:{
+				header:	null
+			}
+		}
         RideList:{
             screen: RideListPage,
             navigationOptions:{
